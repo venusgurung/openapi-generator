@@ -1,0 +1,31 @@
+name: Label Issues and PRs
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Apply labels
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue = context.payload.issue || context.payload.pull_request;
+            const labelsToAdd = [];
+            // Check issue body or title with regular expressions
+            // Add labels to labelsToAdd based on matches
+
+            // Use GitHub API to add labels
+            await github.issues.addLabels({
+              issue_number: issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: labelsToAdd,
+            });
